@@ -1,2 +1,2 @@
-# wordhunter
-A word guessing game developed in C#
+# WordHunter
+A simple word guessing game developed in C#.
