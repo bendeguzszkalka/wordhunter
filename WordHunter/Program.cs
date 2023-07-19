@@ -25,12 +25,60 @@ internal class Program
         Console.WriteLine("Yellow means the letter is in the incorrect spot.");
         Console.BackgroundColor = ConsoleColor.Black;
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Black means the letter is not in the word. \nGood luck!");
+        Console.WriteLine("Black means the letter is not in the word. \nAre you ready?");
+
+        Console.ReadLine();
+        Console.Clear();
 
         Word word = new Word(RandomWord(words));
-        Console.WriteLine(new string(word.MatchInput(Console.ReadLine())));
-        DisplayResults(word, Console.ReadLine());
-    }
+        bool playerWin = false;
+        string[] inputs = new string[6];
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                DisplayResults(word, inputs[j]);
+                Console.WriteLine();
+            }
+            inputs[i] = Console.ReadLine().ToLower();
+
+            foreach (char result in word.MatchInput(inputs[i]))
+            {
+                playerWin = true;
+                if (result != 'g')
+                {
+                    playerWin = false;
+                    break;
+                }
+            }
+
+            if (playerWin)
+            {
+                Console.Clear();
+                for (int j = 0; j < i; j++)
+                {
+                    DisplayResults(word, inputs[j]);
+                    Console.WriteLine();
+                }
+                DisplayResults(word, word.WholeWord);
+                Console.WriteLine();
+                break;
+            }
+
+            if (i != 5) 
+            {
+                Console.Clear();
+            }
+        }
+        if (playerWin)
+        {
+            Console.WriteLine("Congratulations! You guessed the word!");
+        }
+        else
+        {
+            Console.WriteLine("Sorry, you did not win.");
+        }
+    }     
 
     static string RandomWord(string[] words)
     {
@@ -109,6 +157,7 @@ internal class Program
         Console.ForegroundColor = fgcolor;
     }
 }
+
 
 public class Word
 {
