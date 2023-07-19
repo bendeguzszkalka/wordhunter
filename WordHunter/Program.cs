@@ -13,7 +13,7 @@ internal class Program
   \/  \/ \___/|_|  \__,_| \/ /_/  \__,_|_| |_|\__\___|_|   
         ");
 
-        string wordsFilePath = @"ENTER words.wh FILE PATH HERE";
+        string wordsFilePath = @"C:\Users\nl662\Source\Repos\bendeguzszkalka\wordhunter\WordHunter\words.wh";
         string[] words = LoadWordsFile(wordsFilePath);
 
         Console.WriteLine("Welcome to Word Hunter, a simple word guessing game. \nYou will have to guess a valid 5-letter word in 6 tries. \nThe colors of the result indicate how close your guess was.");
