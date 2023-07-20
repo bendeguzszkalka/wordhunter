@@ -13,8 +13,10 @@ internal class Program
   \/  \/ \___/|_|  \__,_| \/ /_/  \__,_|_| |_|\__\___|_|   
         ");
 
-        string wordsFilePath = @"C:\Users\shanj\Source\Repos\wordhunter\WordHunter\words.wh";
+        string wordsFilePath = @".\words.wh";
+        string failPath = @".\fail.txt";
         string[] words = LoadWordsFile(wordsFilePath);
+        string[] failMessages = LoadWordsFile(failPath);
 
         Console.WriteLine("Welcome to Word Hunter, a simple word guessing game. \nYou will have to guess a valid 5-letter word in 6 tries. \nThe colors of the result indicate how close your guess was.");
         Console.BackgroundColor = ConsoleColor.Green;
@@ -73,11 +75,30 @@ internal class Program
         if (playerWin)
         {
             Console.WriteLine("Congratulations! You guessed the word!");
+            Console.WriteLine("Would you like to add a new word to the wordlist? (yes/no)");
+            switch (Console.ReadLine().ToLower())
+            {
+                case "yes":
+                    AddWordToList(wordsFilePath);
+                    break;
+                case "y":
+                    AddWordToList(wordsFilePath);
+                    break;
+                case "no":
+                    break;
+                case "n":
+                    break;
+                default:
+                    break;
+            }
+            Console.WriteLine("Goodbye!");
         }
         else
         {
-            Console.WriteLine("Sorry, you did not win.");
+            Console.WriteLine(RandomWord(failMessages));
+            Console.WriteLine($"The word was {word.WholeWord}.");
         }
+        Console.ReadKey();
     }     
 
     static string RandomWord(string[] words)
@@ -156,8 +177,22 @@ internal class Program
         Console.BackgroundColor = bgcolor;
         Console.ForegroundColor = fgcolor;
     }
-}
 
+    static void AddWordToList(string path)
+    {
+        Console.WriteLine("What 5-letter word would you like to add?");
+        string newWord = Console.ReadLine();
+        while (newWord.Length != 5 && !string.IsNullOrEmpty(newWord))
+        {
+            Console.WriteLine("Please enter a valid word.");
+            newWord = Console.ReadLine();
+        }
+        using (StreamWriter writer = new StreamWriter(path, true))
+        {
+            writer.WriteLine($"\n{newWord.ToLower()}");
+        };
+    }
+}
 
 public class Word
 {
