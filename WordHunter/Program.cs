@@ -15,10 +15,57 @@ internal class Program
 
         string wordsFilePath = @"C:\Users\Bendeguz\Source\Repos\wordhunter\WordHunter\words.wh";
         string failPath = @"C:\Users\Bendeguz\Source\Repos\wordhunter\WordHunter\fail.txt";
-        string[] words = LoadWordsFile(wordsFilePath);
-        string[] failMessages = LoadWordsFile(failPath);
 
         InitializeGame();
+
+        bool startNewGame;
+        do
+        {
+            startNewGame = false;
+            GameRound(wordsFilePath, failPath);
+            Console.WriteLine("Would you like to start a new game? (y/n)");
+            string continueGameAnswer = Console.ReadLine().ToLower();
+            if (continueGameAnswer == "y" || continueGameAnswer == "yes")
+            {
+                startNewGame = true;
+                Console.Clear();
+            }
+        } while (startNewGame);
+        Console.WriteLine("Goodbye!");
+
+        Console.ReadKey();
+    }
+
+    static void InitializeGame()
+    {
+        Console.WriteLine("Welcome to Word Hunter, a simple word guessing game. \nYou will have to guess a valid 5-letter word in 6 tries. \nThe colors of the result indicate how close your guess was.");
+        Console.BackgroundColor = ConsoleColor.Green;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("Green means the letter is in the correct spot.");
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("Yellow means the letter is in the incorrect spot.");
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Black means the letter is not in the word.");
+
+        Console.WriteLine("Are you ready?");
+        string ans = Console.ReadLine();
+        if (ans.Length != 0)
+        {
+            if (ans.ToLower() == "no" || ans.ToLower() == "n")
+            {
+                Console.WriteLine("Ok, exiting...");
+                Environment.Exit(0);
+            }
+        }
+        Console.Clear();
+    }
+
+    static void GameRound(string wordsFilePath, string failPath)
+    {
+        string[] words = LoadWordsFile(wordsFilePath);
+        string[] failMessages = LoadWordsFile(failPath);
 
         Word word = new Word(RandomWord(words));
         bool playerWin = false;
@@ -59,11 +106,12 @@ internal class Program
                 break;
             }
 
-            if (i != 5) 
+            if (i != 5)
             {
                 Console.Clear();
             }
         }
+
         if (playerWin)
         {
             Console.WriteLine("Congratulations! You guessed the word!");
@@ -83,40 +131,12 @@ internal class Program
                 default:
                     break;
             }
-            Console.WriteLine("Goodbye!");
         }
         else
         {
             Console.WriteLine(RandomWord(failMessages));
             Console.WriteLine($"The word was {word.WholeWord}.");
         }
-        Console.ReadKey();
-    }
-
-    static void InitializeGame()
-    {
-        Console.WriteLine("Welcome to Word Hunter, a simple word guessing game. \nYou will have to guess a valid 5-letter word in 6 tries. \nThe colors of the result indicate how close your guess was.");
-        Console.BackgroundColor = ConsoleColor.Green;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Green means the letter is in the correct spot.");
-        Console.BackgroundColor = ConsoleColor.Yellow;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Yellow means the letter is in the incorrect spot.");
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Black means the letter is not in the word.");
-
-        Console.WriteLine("Are you ready?");
-        string ans = Console.ReadLine();
-        if (ans.Length != 0)
-        {
-            if (ans.ToLower() == "no" || ans.ToLower() == "n")
-            {
-                Console.WriteLine("Ok, exiting...");
-                Environment.Exit(0);
-            }
-        }
-        Console.Clear();
     }
 
     static string RandomWord(string[] words)
