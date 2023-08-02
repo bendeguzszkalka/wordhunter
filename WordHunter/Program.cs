@@ -18,27 +18,7 @@ internal class Program
         string[] words = LoadWordsFile(wordsFilePath);
         string[] failMessages = LoadWordsFile(failPath);
 
-        Console.WriteLine("Welcome to Word Hunter, a simple word guessing game. \nYou will have to guess a valid 5-letter word in 6 tries. \nThe colors of the result indicate how close your guess was.");
-        Console.BackgroundColor = ConsoleColor.Green;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Green means the letter is in the correct spot.");
-        Console.BackgroundColor = ConsoleColor.Yellow;
-        Console.ForegroundColor = ConsoleColor.Black;
-        Console.WriteLine("Yellow means the letter is in the incorrect spot.");
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("Black means the letter is not in the word. \nAre you ready?");
-
-        string ans = Console.ReadLine();
-        if (ans.Length != 0)
-        {
-            if (ans.ToLower() == "no" || ans.ToLower() == "n")
-            {
-                Console.WriteLine("Ok, exiting...");
-                Environment.Exit(0);
-            }
-        }
-        Console.Clear();
+        InitializeGame();
 
         Word word = new Word(RandomWord(words));
         bool playerWin = false;
@@ -53,6 +33,7 @@ internal class Program
             do
             {
                 inputs[i] = Console.ReadLine().ToLower();
+                if (inputs[i].Length != 5) Console.WriteLine("Please enter 5-letter words.");
             } while (inputs[i].Length != 5);
 
             foreach (char result in word.MatchInput(inputs[i]))
@@ -110,7 +91,33 @@ internal class Program
             Console.WriteLine($"The word was {word.WholeWord}.");
         }
         Console.ReadKey();
-    }     
+    }
+
+    static void InitializeGame()
+    {
+        Console.WriteLine("Welcome to Word Hunter, a simple word guessing game. \nYou will have to guess a valid 5-letter word in 6 tries. \nThe colors of the result indicate how close your guess was.");
+        Console.BackgroundColor = ConsoleColor.Green;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("Green means the letter is in the correct spot.");
+        Console.BackgroundColor = ConsoleColor.Yellow;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("Yellow means the letter is in the incorrect spot.");
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Black means the letter is not in the word.");
+
+        Console.WriteLine("Are you ready?");
+        string ans = Console.ReadLine();
+        if (ans.Length != 0)
+        {
+            if (ans.ToLower() == "no" || ans.ToLower() == "n")
+            {
+                Console.WriteLine("Ok, exiting...");
+                Environment.Exit(0);
+            }
+        }
+        Console.Clear();
+    }
 
     static string RandomWord(string[] words)
     {
