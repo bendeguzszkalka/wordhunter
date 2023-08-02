@@ -13,8 +13,8 @@ internal class Program
   \/  \/ \___/|_|  \__,_| \/ /_/  \__,_|_| |_|\__\___|_|   
         ");
 
-        string wordsFilePath = @"C:\Users\Bendeguz\Source\Repos\wordhunter\WordHunter\words.wh";
-        string failPath = @"C:\Users\Bendeguz\Source\Repos\wordhunter\WordHunter\fail.txt";
+        string wordsFilePath = @".\words.wh";
+        string failPath = @".\fail.txt";
 
         InitializeGame();
 
