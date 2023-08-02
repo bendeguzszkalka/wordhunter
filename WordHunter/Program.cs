@@ -13,8 +13,8 @@ internal class Program
   \/  \/ \___/|_|  \__,_| \/ /_/  \__,_|_| |_|\__\___|_|   
         ");
 
-        string wordsFilePath = @".\words.wh";
-        string failPath = @".\fail.txt";
+        string wordsFilePath = @"C:\Users\Bendeguz\Source\Repos\wordhunter\WordHunter\words.wh";
+        string failPath = @"C:\Users\Bendeguz\Source\Repos\wordhunter\WordHunter\fail.txt";
         string[] words = LoadWordsFile(wordsFilePath);
         string[] failMessages = LoadWordsFile(failPath);
 
@@ -29,7 +29,15 @@ internal class Program
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("Black means the letter is not in the word. \nAre you ready?");
 
-        Console.ReadLine();
+        string ans = Console.ReadLine();
+        if (ans.Length != 0)
+        {
+            if (ans.ToLower() == "no" || ans.ToLower() == "n")
+            {
+                Console.WriteLine("Ok, exiting...");
+                Environment.Exit(0);
+            }
+        }
         Console.Clear();
 
         Word word = new Word(RandomWord(words));
@@ -42,7 +50,10 @@ internal class Program
                 DisplayResults(word, inputs[j]);
                 Console.WriteLine();
             }
-            inputs[i] = Console.ReadLine().ToLower();
+            do
+            {
+                inputs[i] = Console.ReadLine().ToLower();
+            } while (inputs[i].Length != 5);
 
             foreach (char result in word.MatchInput(inputs[i]))
             {
